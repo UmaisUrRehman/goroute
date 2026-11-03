@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body {
+    margin: 0;
+    padding: 24px;
+    background-color: #0d1117;
+    font-family: 'Consolas', 'Fira Code', 'Courier New', monospace;
+  }
+  .code-card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    overflow: hidden;
+    max-width: 820px;
+  }
+  .window-header {
+    background: #21262d;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #30363d;
+  }
+  .dots {
+    display: flex;
+    gap: 8px;
+    margin-right: 16px;
+  }
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+  .title {
+    color: #8b949e;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  pre {
+    margin: 0;
+    padding: 20px;
+    color: #e6edf3;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-x: auto;
+  }
+  .keyword { color: #ff7b72; font-weight: bold; }
+  .type { color: #79c0ff; }
+  .string { color: #a5d6ff; }
+  .number { color: #d2a8ff; }
+  .comment { color: #8b949e; font-style: italic; }
+  .property { color: #ffa657; }
+</style>
+</head>
+<body>
+
+<div class="code-card">
+  <div class="window-header">
+    <div class="dots">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+    </div>
+    <div class="title">lib/main.dart — ShellRoute & Deep Link Configuration</div>
+  </div>
+  <pre><code><span class="keyword">final</span> <span class="type">GoRouter</span> <span class="property">appRouter</span> = <span class="type">GoRouter</span>(
+  <span class="property">initialLocation</span>: <span class="string">'/home'</span>,
+  <span class="property">routes</span>: [
+    <span class="comment">// 1. Nested Navigation Flow via ShellRoute</span>
+    <span class="type">ShellRoute</span>(
+      <span class="property">builder</span>: (context, state, child) => <span class="type">ScaffoldWithNavBar</span>(<span class="property">child</span>: child),
+      <span class="property">routes</span>: [
+        <span class="type">GoRoute</span>(<span class="property">path</span>: <span class="string">'/home'</span>, <span class="property">name</span>: <span class="string">'home'</span>, <span class="property">builder</span>: (_, __) => <span class="keyword">const</span> <span class="type">HomeScreen</span>()),
+        <span class="type">GoRoute</span>(<span class="property">path</span>: <span class="string">'/explore'</span>, <span class="property">name</span>: <span class="string">'explore'</span>, <span class="property">builder</span>: (_, __) => <span class="keyword">const</span> <span class="type">ExploreScreen</span>()),
+        <span class="type">GoRoute</span>(<span class="property">path</span>: <span class="string">'/settings'</span>, <span class="property">name</span>: <span class="string">'settings'</span>, <span class="property">builder</span>: (_, __) => <span class="keyword">const</span> <span class="type">SettingsScreen</span>()),
+      ],
+    ),
+    <span class="comment">// 2. Parameterized Deep Link Route</span>
+    <span class="type">GoRoute</span>(
+      <span class="property">path</span>: <span class="string">'/item/:id'</span>,
+      <span class="property">name</span>: <span class="string">'item-details'</span>,
+      <span class="property">builder</span>: (context, state) {
+        <span class="keyword">final</span> id = state.<span class="property">pathParameters</span>[<span class="string">'id'</span>] ?? <span class="string">'unknown'</span>;
+        <span class="keyword">final</span> name = state.<span class="property">uri</span>.<span class="property">queryParameters</span>[<span class="string">'name'</span>] ?? <span class="string">'Custom Item'</span>;
+        <span class="keyword">return</span> <span class="type">ItemDetailScreen</span>(<span class="property">itemId</span>: id, <span class="property">itemName</span>: name);
+      },
+    ),
+    <span class="comment">// 3. Additional Named Route</span>
+    <span class="type">GoRoute</span>(<span class="property">path</span>: <span class="string">'/about'</span>, <span class="property">name</span>: <span class="string">'about'</span>, <span class="property">builder</span>: (_, __) => <span class="keyword">const</span> <span class="type">AboutScreen</span>()),
+  ],
+);</code></pre>
+</div>
+
+</body>
+</html>
